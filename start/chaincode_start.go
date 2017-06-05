@@ -19,6 +19,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -26,7 +27,24 @@ import (
 // SimpleChaincode example simple Chaincode implementation
 type SimpleChaincode struct {
 }
+type mandate struct {
+    name string
+    bank  string
+	dateOfBirth string
+}
+var SampleMandates = []mandate{
+    {
+        name: "Adil Haris",
+        bank: "HDFC Bank",
+		dateOfBirth: "11th July 1993",
+    },{
+        name: "John Johny Johnson",
+        bank: "ICICI Bank",
+		dateOfBirth: "12th July 1993",
+    },
+}
 
+var mandateCount int
 // ============================================================================================================================
 // Main
 // ============================================================================================================================
@@ -42,11 +60,13 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
-	err := stub.PutState("hello_world", []byte(args[0]))
+	err := stub.PutState("Initialized", []byte(args[0]))
+	mandateCount = 2
+	
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return []byte(string(mandateCount)), nil
 }
 
 // Invoke is our entry point to invoke a chaincode function
@@ -55,23 +75,34 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" {
 		return t.Init(stub, "init", args)
-	} else if function == "write" {
-		return t.write(stub, args)
+	} else if function == "newMandate" {
+		return t.newMandate(stub, args)
 	}
 	fmt.Println("invoke did not find func: " + function)
 	return nil, errors.New("Received unknown function invocation: " + function)
 }
 
-func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var key, value string
+func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
+	var Name, Bank, DoB string
 	fmt.Println("running write()")
-	if len(args) != 2 {
-		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+	if len(args) != 3 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 3. name, bank and date of birth of the investor are required")
 	}
-	key = args[0] //rename for fun
-	value = args[1]
-	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
+	Name = args[0]
+	Bank = args[1]
+	DoB = args[2]
+	newMandate := mandate{
+		name:    Name,
+		bank: Bank,
+		dateOfBirth: DoB,
+	}
+	out, err := json.Marshal(newMandate)
+	if err != nil {
+        return nil, err
+    }
+	mandateCount++
+	err = stub.PutState(string(mandateCount), []byte(string(out))) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
@@ -102,4 +133,13 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		return nil, errors.New(jsonResp)
 	}
 	return valAsbytes, nil
+}
+
+func addNewMandateEntry(name string,bank string,DoB string) {
+	newMandate := mandate{
+		name:    name,
+		bank: bank,
+		dateOfBirth: DoB,
+	}
+	SampleMandates = append(SampleMandates, newMandate)
 }
