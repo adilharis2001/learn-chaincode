@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -94,18 +93,9 @@ func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []st
 	Name = args[0]
 	Bank = args[1]
 	DoB = args[2]
-	newMandate := mandate{
-		name:    Name,
-		bank: Bank,
-		dateOfBirth: DoB,
-	}
-	out, err := json.Marshal(newMandate)
-	if err != nil {
-        return nil, err
-    }
 	mandateCount++
 	mandateCountString := strconv.Itoa(mandateCount)
-	err = stub.PutState(mandateCountString, []byte(string(out))) //write the variable into the chaincode state
+	err = stub.PutState(mandateCountString, []byte(Name + "||" + Bank + "||" + DoB)) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
