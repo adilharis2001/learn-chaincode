@@ -19,6 +19,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"strconv"
 	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -62,11 +63,12 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	}
 	err := stub.PutState("Initialized", []byte(args[0]))
 	mandateCount = 2
+	mandateCountString := strconv.Itoa(mandateCount)
 	
 	if err != nil {
 		return nil, err
 	}
-	return []byte(string(mandateCount)), nil
+	return []byte(mandateCountString), nil
 }
 
 // Invoke is our entry point to invoke a chaincode function
@@ -102,11 +104,12 @@ func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []st
         return nil, err
     }
 	mandateCount++
-	err = stub.PutState(string(mandateCount), []byte(string(out))) //write the variable into the chaincode state
+	mandateCountString := strconv.Itoa(mandateCount)
+	err = stub.PutState(mandateCountString, []byte(string(out))) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
-	return nil, nil
+	return []byte(mandateCountString), nil
 }
 
 // Query is our entry point for queries
