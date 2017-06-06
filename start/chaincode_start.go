@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
-	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -61,14 +60,12 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
-	err := stub.PutState("Initialized", []byte(args[0]))
+	err := stub.PutState("Init", []byte(args[0]))
 	mandateCount = 2
-	mandateCountString := strconv.Itoa(mandateCount)
-	
 	if err != nil {
 		return nil, err
 	}
-	return []byte(mandateCountString), nil
+	return nil, nil
 }
 
 // Invoke is our entry point to invoke a chaincode function
@@ -87,7 +84,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var Name, Bank, DoB string
-	var newmandate mandate
 	fmt.Println("running write()")
 	if len(args) != 3 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 3. name, bank and date of birth of the investor are required")
@@ -95,15 +91,9 @@ func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []st
 	Name = args[0]
 	Bank = args[1]
 	DoB = args[2]
-	newmandate = mandate{name: Name, bank: Bank, dateOfBirth: DoB}
-	newMandateBytes, err := json.Marshal(&newmandate)
-	if err != nil {
-		fmt.Println("error creating new mandate" + newmandate.name)
-		return nil, errors.New("Error creating new mandate " + newmandate.name)
-	}
 	mandateCount++
-	mandateCountString := "Mandate:" + strconv.Itoa(mandateCount)
-	err = stub.PutState(mandateCountString, newMandateBytes)
+	mandateCountString := strconv.Itoa(mandateCount)
+	err = stub.PutState(mandateCountString, []byte(Name+"||"+Bank+"||"+DoB)) //write the variable into the chaincode state
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +114,6 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, jsonResp string
 	var err error
-	var fetchedmandate mandate
 	if len(args) != 1 {
 		return nil, errors.New("Incorrect number of arguments. Expecting name of the key to query")
 	}
@@ -134,17 +123,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 		jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
 		return nil, errors.New(jsonResp)
 	}
-	err = json.Unmarshal(valAsbytes, &fetchedmandate)
-	if err != nil {
-		fmt.Println("Error unmarshalling " + key + "\n err:" + err.Error())
-		return nil, errors.New("Error unmarshalling " + key)
-	}
-	fetchedmandateBytes, err1 := json.Marshal(&fetchedmandate)
-			if err1 != nil {
-				fmt.Println("Error marshalling the company")
-				return nil, err1
-			}
-	return fetchedmandateBytes, nil
+	return valAsbytes, nil
 }
 
 func addNewMandateEntry(name string,bank string,DoB string) {
