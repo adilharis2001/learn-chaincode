@@ -7,6 +7,10 @@ Chain code id Name: d9a93b775b11a8420f910a4832d307f05caea6bcdfefa8987a584765187a
 
 - 0542bf9f1285472a618a15d88ab79eb4f75739296f4c0c11929dacc0e9846b2cb2f15e33d6c52ff169c0e537ffbfc591d152f9bde07d512a59439c5e1d494063
 
+- d99036c6ba03537d671da32a77e4cf5fd720e19255a9db230af9ba589a33b34b52ae1aaebd45d98bcea87ae8239f92586446ab2e71e101cc65775c0d7559bb67
+
+- 6de8b6b8e6dd449bcfed8611c61ca9116c4883aa00bac72b6b0c45e35902ac0a8aaa3aa901fc57dc17f0606ec88f8d9e94c8d3615ca9deeee061694ff4f0ff7e
+
 Read
 
 {
@@ -16,12 +20,12 @@ Read
 "type": 1,
 "chaincodeID": {
 "name":
-"1098b47ff158bbd33fbf540ccafaf6ed40aa8bdfef9437ec039768f81158f92de75f3e2e58e542cf4773c31f51892d7161c25a8bfee9d59aac15237dd343d508"
+"6de8b6b8e6dd449bcfed8611c61ca9116c4883aa00bac72b6b0c45e35902ac0a8aaa3aa901fc57dc17f0606ec88f8d9e94c8d3615ca9deeee061694ff4f0ff7e"
 },
 "ctorMsg": {
 "function": "read",
 "args": [
-"5"
+"Mandate:3"
 ]
 },
 "secureContext": "user_type1_0"
@@ -38,7 +42,7 @@ Write
 "type": 1,
 "chaincodeID": {
 "name":
-"0542bf9f1285472a618a15d88ab79eb4f75739296f4c0c11929dacc0e9846b2cb2f15e33d6c52ff169c0e537ffbfc591d152f9bde07d512a59439c5e1d494063"
+"6de8b6b8e6dd449bcfed8611c61ca9116c4883aa00bac72b6b0c45e35902ac0a8aaa3aa901fc57dc17f0606ec88f8d9e94c8d3615ca9deeee061694ff4f0ff7e"
 },
 "ctorMsg": {
 "function": "newMandate",
