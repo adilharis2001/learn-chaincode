@@ -137,7 +137,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 	err = json.Unmarshal(valAsbytes, &fetchedmandate)
 	if err != nil {
 		fmt.Println("Error unmarshalling " + key + "\n err:" + err.Error())
-		return fetchedmandate, errors.New("Error unmarshalling " + key)
+		return nil, errors.New("Error unmarshalling " + key)
 	}
 	fetchedmandateBytes, err1 := json.Marshal(&fetchedmandate)
 			if err1 != nil {
