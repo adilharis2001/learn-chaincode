@@ -1,7 +1,9 @@
 Chain code id Name: d9a93b775b11a8420f910a4832d307f05caea6bcdfefa8987a584765187a2ed83febd37e9d24750b34cb984bb2ba62dbb55b417afad223cf367b83e49a4f7896
 
 
-a3c79c30ce0fb53fc9c8ed4e2bb6fe6f59a6f7fbb2d67eee866cb88381c3a881b4310921de95c35c9c86662b1f0473a7134b2bbeaf34a775f6c4dd5e3d34da0c
+- a3c79c30ce0fb53fc9c8ed4e2bb6fe6f59a6f7fbb2d67eee866cb88381c3a881b4310921de95c35c9c86662b1f0473a7134b2bbeaf34a775f6c4dd5e3d34da0c
+
+- 1098b47ff158bbd33fbf540ccafaf6ed40aa8bdfef9437ec039768f81158f92de75f3e2e58e542cf4773c31f51892d7161c25a8bfee9d59aac15237dd343d508
 
 Read
 
@@ -12,7 +14,7 @@ Read
 "type": 1,
 "chaincodeID": {
 "name":
-"a3c79c30ce0fb53fc9c8ed4e2bb6fe6f59a6f7fbb2d67eee866cb88381c3a881b4310921de95c35c9c86662b1f0473a7134b2bbeaf34a775f6c4dd5e3d34da0c"
+"1098b47ff158bbd33fbf540ccafaf6ed40aa8bdfef9437ec039768f81158f92de75f3e2e58e542cf4773c31f51892d7161c25a8bfee9d59aac15237dd343d508"
 },
 "ctorMsg": {
 "function": "read",
@@ -34,12 +36,33 @@ Write
 "type": 1,
 "chaincodeID": {
 "name":
-"a3c79c30ce0fb53fc9c8ed4e2bb6fe6f59a6f7fbb2d67eee866cb88381c3a881b4310921de95c35c9c86662b1f0473a7134b2bbeaf34a775f6c4dd5e3d34da0c"
+"1098b47ff158bbd33fbf540ccafaf6ed40aa8bdfef9437ec039768f81158f92de75f3e2e58e542cf4773c31f51892d7161c25a8bfee9d59aac15237dd343d508"
 },
 "ctorMsg": {
 "function": "newMandate",
 "args": [
 "John", "HDFC Bank", "11th July 1993"
+]
+},
+"secureContext": "user_type1_0"
+},
+"id": 1
+}
+
+Deploy
+
+{
+"jsonrpc": "2.0",
+"method": "deploy",
+"params": {
+"type": 1,
+"chaincodeID": {
+"path": "https://github.com/adilharis2001/learn-chaincode/start"
+},
+"ctorMsg": {
+"function": "init",
+"args": [
+"hi hello"
 ]
 },
 "secureContext": "user_type1_0"

@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -86,6 +87,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
 	var Name, Bank, DoB string
+	var newmandate mandate
 	fmt.Println("running write()")
 	if len(args) != 3 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 3. name, bank and date of birth of the investor are required")
@@ -93,13 +95,19 @@ func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []st
 	Name = args[0]
 	Bank = args[1]
 	DoB = args[2]
+	newmandate = mandate{name: Name, bank: Bank, dateOfBirth: DoB}
+	newMandateBytes, err := json.Marshal(&newmandate)
+	if err != nil {
+		fmt.Println("error creating new mandate" + newmandate.name)
+		return nil, errors.New("Error creating new mandate " + newmandate.name)
+	}
 	mandateCount++
-	mandateCountString := strconv.Itoa(mandateCount)
-	err = stub.PutState(mandateCountString, []byte(Name + "||" + Bank + "||" + DoB)) //write the variable into the chaincode state
+	mandateCountString := "Mandate:" + strconv.Itoa(mandateCount)
+	err = stub.PutState(mandateCountString, newMandateBytes)
 	if err != nil {
 		return nil, err
 	}
-	return []byte(mandateCountString), nil
+	return nil, nil
 }
 
 // Query is our entry point for queries
