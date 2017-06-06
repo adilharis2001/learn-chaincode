@@ -28,12 +28,12 @@ import (
 // SimpleChaincode example simple Chaincode implementation
 type SimpleChaincode struct {
 }
-type mandate struct {
-    name string
-    bank  string
-	dateOfBirth string
+type Mandate struct {
+    name string `json:"name"`
+    bank  string `json:"bank"`
+	dateOfBirth string `json:"dateOfBirth"`
 }
-var SampleMandates = []mandate{
+var SampleMandates = []Mandate{
     {
         name: "Adil Haris",
         bank: "HDFC Bank",
@@ -84,7 +84,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 
 func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var err error
-	var newmandate mandate
+	var newmandate Mandate
 	fmt.Println("running write()")
 	if len(args) != 3 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 3. name, bank and date of birth of the investor are required")
@@ -129,7 +129,7 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 }
 
 func addNewMandateEntry(name string,bank string,DoB string) {
-	newMandate := mandate{
+	newMandate := Mandate{
 		name:    name,
 		bank: bank,
 		dateOfBirth: DoB,
