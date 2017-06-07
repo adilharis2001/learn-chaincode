@@ -15,6 +15,10 @@ Chain code id Name: d9a93b775b11a8420f910a4832d307f05caea6bcdfefa8987a584765187a
 
 - f173a6efdab7b72574b9f6eca0ec815cebe1f61eae41170e835aeb2144dbb70c1d941c7a613da180b5e4b6f02718d25f4bd3d25b6b113e849fea4fadec35d507
 
+- 4bd9297dd24ff478814da31f440d53b6490dd259d849c5b707e95398d77bb34223a164ccd89c13e057639141680a46167210c5947c914e900cc9cecf8e9073eb
+
+- c0614aea7f1e62b18e6b16b1e96d22896a81c9e5e0495c6071fc9882bd939a3002d1b6f4c2b028fcb7ccff496bc604c6219774e75f8425af6112631e0929addf
+
 Read
 
 {
@@ -24,7 +28,7 @@ Read
 "type": 1,
 "chaincodeID": {
 "name":
-"f173a6efdab7b72574b9f6eca0ec815cebe1f61eae41170e835aeb2144dbb70c1d941c7a613da180b5e4b6f02718d25f4bd3d25b6b113e849fea4fadec35d507"
+"c0614aea7f1e62b18e6b16b1e96d22896a81c9e5e0495c6071fc9882bd939a3002d1b6f4c2b028fcb7ccff496bc604c6219774e75f8425af6112631e0929addf"
 },
 "ctorMsg": {
 "function": "read",
@@ -46,7 +50,7 @@ Write
 "type": 1,
 "chaincodeID": {
 "name":
-"f173a6efdab7b72574b9f6eca0ec815cebe1f61eae41170e835aeb2144dbb70c1d941c7a613da180b5e4b6f02718d25f4bd3d25b6b113e849fea4fadec35d507"
+"c0614aea7f1e62b18e6b16b1e96d22896a81c9e5e0495c6071fc9882bd939a3002d1b6f4c2b028fcb7ccff496bc604c6219774e75f8425af6112631e0929addf"
 },
 "ctorMsg": {
 "function": "newMandate",
@@ -72,7 +76,7 @@ Deploy
 "ctorMsg": {
 "function": "init",
 "args": [
-"hi hello"
+"true"
 ]
 },
 "secureContext": "user_type1_0"
