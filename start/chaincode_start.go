@@ -29,19 +29,19 @@ import (
 type SimpleChaincode struct {
 }
 type Mandate struct {
-    name string `json:"name"`
-    bank  string `json:"bank"`
-	dateOfBirth string `json:"dateOfBirth"`
+    Name string `json:"name"`
+    Bank  string `json:"bank"`
+	DateOfBirth string `json:"dateOfBirth"`
 }
 var SampleMandates = []Mandate{
     {
-        name: "Adil Haris",
-        bank: "HDFC Bank",
-		dateOfBirth: "11th July 1993",
+        Name: "Adil Haris",
+        Bank: "HDFC Bank",
+		DateOfBirth: "11th July 1993",
     },{
-        name: "John Johny Johnson",
-        bank: "ICICI Bank",
-		dateOfBirth: "12th July 1993",
+        Name: "John Johny Johnson",
+        Bank: "ICICI Bank",
+		DateOfBirth: "12th July 1993",
     },
 }
 
@@ -89,9 +89,9 @@ func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []st
 	if len(args) != 3 {
 		return nil, errors.New("Incorrect number of arguments. Expecting 3. name, bank and date of birth of the investor are required")
 	}
-	newmandate.name = args[0]
-	newmandate.bank = args[1]
-	newmandate.dateOfBirth = args[2]
+	newmandate.Name = args[0]
+	newmandate.Bank = args[1]
+	newmandate.DateOfBirth = args[2]
 	mandateCount++
 	mandateCountString := strconv.Itoa(mandateCount)
 	jsonAsBytes, _ := json.Marshal(newmandate)
@@ -130,9 +130,9 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 
 func addNewMandateEntry(name string,bank string,DoB string) {
 	newMandate := Mandate{
-		name:    name,
-		bank: bank,
-		dateOfBirth: DoB,
+		Name:    name,
+		Bank: bank,
+		DateOfBirth: DoB,
 	}
 	SampleMandates = append(SampleMandates, newMandate)
 }
