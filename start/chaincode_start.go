@@ -62,9 +62,19 @@ func (t *SimpleChaincode) Init(stub shim.ChaincodeStubInterface, function string
 		return nil, errors.New("Incorrect number of arguments. Expecting 1")
 	}
 	err := stub.PutState("Init", []byte(args[0]))
-	mandateCount = 2
 	if err != nil {
 		return nil, err
+	}
+	mandateCount = 2
+	mandateCountString := strconv.Itoa(mandateCount)
+	err1 := stub.PutState("MandateCount", []byte(mandateCountString))
+	if err1 != nil {
+		return nil, err1
+	}
+	MandatesBytes, _ := json.Marshal(&SampleMandates)
+	err2 := stub.PutState("SampleMandates", MandatesBytes)
+	if err2 != nil {
+		return nil, err2
 	}
 	return nil, nil
 }
@@ -83,7 +93,6 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 }
 
 func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var err error
 	var newmandate Mandate
 	fmt.Println("running write()")
 	if len(args) != 3 {
@@ -94,10 +103,15 @@ func (t *SimpleChaincode) newMandate(stub shim.ChaincodeStubInterface, args []st
 	newmandate.DateOfBirth = args[2]
 	mandateCount++
 	mandateCountString := strconv.Itoa(mandateCount)
-	jsonAsBytes, _ := json.Marshal(newmandate)
-	err = stub.PutState(mandateCountString, jsonAsBytes) //write the variable into the chaincode state
+	SampleMandates = append(SampleMandates,newmandate)
+	err := stub.PutState("MandateCount", []byte(mandateCountString))
 	if err != nil {
 		return nil, err
+	}
+	jsonAsBytes, _ := json.Marshal(newmandate)
+	err1 := stub.PutState(mandateCountString, jsonAsBytes) //write the variable into the chaincode state
+	if err1 != nil {
+		return nil, err1
 	}
 	return nil, nil
 }
